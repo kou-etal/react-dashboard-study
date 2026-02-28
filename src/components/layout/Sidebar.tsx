@@ -21,7 +21,7 @@ export function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-64 bg-gray-900 text-white flex flex-col">
       <div className="p-6">
-        <h1 className="text-xl font-bold">EC Dashboard</h1>
+        <h1 className="text-xl font-bold">URBAN STYLE 管理</h1>
       </div>
 
       <nav className="flex-1 px-3 space-y-1">
