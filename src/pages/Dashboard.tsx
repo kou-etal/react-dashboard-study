@@ -16,9 +16,12 @@ import {
   TrendingUp,
   type LucideIcon,
 } from 'lucide-react'
+import { useNavigate } from 'react-router'
 import { Header } from '../components/layout/Header'
+import { StatusBadge } from '../components/ui/StatusBadge'
 import { mockDailySales, mockKpi } from '../mocks/dashboard'
-import { formatCurrency } from '../utils/format'
+import { mockOrders } from '../mocks/orders'
+import { formatCurrency, formatDate } from '../utils/format'
 
 type KpiCardProps = {
   title: string
@@ -51,7 +54,11 @@ function KpiCard({ title, value, change, icon: Icon }: KpiCardProps) {
   )
 }
 
+const recentOrders = mockOrders.slice(0, 5)
+
 export function Dashboard() {
+  const navigate = useNavigate()
+
   return (
     <>
       <Header title="ダッシュボード" />
@@ -133,6 +140,38 @@ export function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200">
+          <div className="p-6 border-b border-gray-200">
+            <h3 className="text-sm font-semibold text-gray-900">最近の注文</h3>
+          </div>
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200 text-left">
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase">注文ID</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase">顧客</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase text-right">金額</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase">ステータス</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase">日付</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {recentOrders.map((order) => (
+                <tr
+                  key={order.id}
+                  onClick={() => navigate(`/orders/${order.id}`)}
+                  className="hover:bg-gray-50 cursor-pointer transition-colors"
+                >
+                  <td className="px-6 py-3 text-sm font-medium text-blue-600">{order.id}</td>
+                  <td className="px-6 py-3 text-sm text-gray-900">{order.customerName}</td>
+                  <td className="px-6 py-3 text-sm text-gray-900 text-right">{formatCurrency(order.total)}</td>
+                  <td className="px-6 py-3"><StatusBadge status={order.status} /></td>
+                  <td className="px-6 py-3 text-sm text-gray-500">{formatDate(order.createdAt)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>
