@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
-import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
 import { AppLayout } from './components/layout/AppLayout'
 import { Login } from './pages/Login'
@@ -12,20 +11,18 @@ import { Settings } from './pages/Settings'
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoute />}>
-            <Route element={<AppLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="orders/:id" element={<OrderDetail />} />
-              <Route path="products" element={<Products />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="orders/:id" element={<OrderDetail />} />
+            <Route path="products" element={<Products />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
-        </Routes>
-      </AuthProvider>
+        </Route>
+      </Routes>
     </BrowserRouter>
   )
 }

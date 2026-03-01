@@ -6,7 +6,7 @@ import {
   Settings,
   LogOut,
 } from 'lucide-react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useClerk } from '@clerk/clerk-react'
 
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'ダッシュボード' },
@@ -16,7 +16,7 @@ const navItems = [
 ] as const
 
 export function Sidebar() {
-  const { logout } = useAuth()
+  const { signOut } = useClerk()
 
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-64 bg-gray-900 text-white flex flex-col">
@@ -46,7 +46,7 @@ export function Sidebar() {
 
       <div className="p-3 border-t border-gray-800">
         <button
-          onClick={logout}
+          onClick={() => signOut({ redirectUrl: '/login' })}
           className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
         >
           <LogOut size={20} />
